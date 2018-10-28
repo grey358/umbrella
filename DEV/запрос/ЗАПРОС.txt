@@ -17,3 +17,4 @@ SELECT
     ,endQnty
     ,ROW_NUMBER() OVER (PARTITION BY artId,cntrId,diff ORDER BY dayId)
 FROM C;
+GO
