@@ -1,0 +1,165 @@
+﻿IF OBJECT_ID('tempdb..#tmpLoadPost') IS NOT NULL
+   DROP TABLE #tmpLoadPost;
+
+CREATE TABLE #tmpLoadPost
+(
+     dcId       INTEGER NOT NULL
+	,skuId      INTEGER NOT NULL
+	,normalDt   DATE NOT NULL
+	,tryeDayPcs INTEGER NOT NULL
+)
+
+INSERT INTO #tmpLoadPost
+(
+     dcId      
+    ,skuId     
+    ,normalDt  
+    ,tryeDayPcs
+)
+VALUES
+(
+     1
+	,1000
+	,CAST(GETDATE() AS DATE)
+	,1
+),
+(
+     1
+	,1001
+	,CAST(GETDATE() AS DATE)
+	,4
+),
+(
+     1
+	,1001
+	,CAST(GETDATE()-1 AS DATE)
+	,3
+),
+(
+     1
+	,1001
+	,CAST(GETDATE()-2 AS DATE)
+	,2
+),
+(
+     1
+	,1001
+	,CAST(GETDATE()-3 AS DATE)
+	,1
+),
+(
+     1
+	,1002
+	,CAST(GETDATE()-6 AS DATE)
+	,2
+),
+(
+     1
+	,1002
+	,CAST(GETDATE()-7 AS DATE)
+	,1
+),
+(
+     1
+	,1003
+	,CAST(GETDATE()-1 AS DATE)
+	,2
+),
+(
+     1
+	,1003
+	,CAST(GETDATE()-2 AS DATE)
+	,1
+),
+(
+     1
+	,1004
+	,CAST(GETDATE()-16 AS DATE)
+	,1
+),
+(
+     1
+	,1005
+	,CAST(GETDATE()-7 AS DATE)
+	,3
+),
+(
+     1
+	,1005
+	,CAST(GETDATE()-8 AS DATE)
+	,2
+),
+(
+     1
+	,1005
+	,CAST(GETDATE()-9 AS DATE)
+	,1
+),
+(
+     1
+	,1005
+	,CAST(GETDATE()-11 AS DATE)
+	,2
+),
+(
+     1
+	,1005
+	,CAST(GETDATE()-12 AS DATE)
+	,1
+),
+(
+     2
+	,1000
+	,CAST(GETDATE()-1 AS DATE)
+	,2
+),
+(
+     2
+	,1000
+	,CAST(GETDATE()-2 AS DATE)
+	,1
+),
+(
+     2
+	,1000
+	,CAST(GETDATE()-4 AS DATE)
+	,1
+),
+(
+     2
+	,1001
+	,CAST(GETDATE()-9 AS DATE)
+	,1
+)
+;
+go
+
+
+WITH table1 AS
+(
+SELECT
+     normalDt
+    ,skuid
+    ,dcid
+	,tryeDayPcs
+	,DATEDIFF(d, DENSE_RANK() OVER(
+                                   PARTITION BY
+								        skuid
+									   ,dcid
+                                   ORDER BY
+								       normalDt), normalDt) AS diff
+FROM #tmpLoadPost
+)
+SELECT 
+     normalDt
+    ,skuId
+    ,dcId
+	,tryeDayPcs
+    ,ROW_NUMBER() OVER (
+	                    PARTITION BY
+						     skuid
+							,dcid
+							,diff
+						ORDER BY
+						    normalDt) AS withoutShipment
+FROM table1; 
