@@ -28,7 +28,7 @@ namespace Snake
             pList.Add(head);
 
             tail.Clear();
-            head.Drow();
+            head.Draw();
         }
 
         public Point GetNextPoin()
@@ -37,6 +37,17 @@ namespace Snake
             Point nextPoint = new Point(head);
             nextPoint.Move(1, direction);
             return nextPoint;
+        }
+
+        internal bool IsHitTail()
+        {
+            var head = pList.Last();
+            for (int i = 0; i < pList.Count - 2; i++)
+            {
+                if (head.IsHit(pList[i]))
+                    return true;
+            }
+            return false;
         }
 
         public void handle(ConsoleKey key)

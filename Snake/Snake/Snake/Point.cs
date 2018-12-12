@@ -27,7 +27,7 @@ namespace Snake
             sym = p.sym;
         }
 
-        public void Drow()
+        public void Draw()
         {
             Console.SetCursorPosition(x, y);
             Console.Write(sym);
@@ -41,7 +41,7 @@ namespace Snake
         public void Clear()
         {
             sym = ' ';
-            Drow();
+            Draw();
         }
 
         public void Move(int offset, Direction direction)

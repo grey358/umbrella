@@ -9,30 +9,28 @@ namespace Snake
         {
             Console.SetBufferSize(120, 30);
 
-            HorizontalyLine UpLine = new HorizontalyLine(0, 78, 0, '+');
-            HorizontalyLine DownLine = new HorizontalyLine(0, 78, 24, '+');
-            VerticalyLine LeftLine = new VerticalyLine(0, 24, 0, '+');
-            VerticalyLine RightLine = new VerticalyLine(0, 24, 78, '+');
-            UpLine.Drow();
-            DownLine.Drow();
-            LeftLine.Drow();
-            RightLine.Drow();
+            Walls walls = new Walls(80, 25);
+            walls.Draw();
 
             Point p = new Point(4,5,'*');
             Snake snake = new Snake(p, 4, Direction.RIGHT);
-            snake.Drow();
+            snake.Draw();
             snake.Move();
 
             FoodCreator foodCreator = new FoodCreator(80, 25, '$');
             Point food = foodCreator.CreateFood();
-            food.Drow();
+            food.Draw();
 
             while (true)
             {
+                if (walls.IsHit(snake) || snake.IsHitTail())
+                {
+                    break;
+                }
                 if (snake.Eat(food))
                 {
                     food = foodCreator.CreateFood();
-                    food.Drow();
+                    food.Draw();
                 }
                 else
                 {
@@ -45,7 +43,7 @@ namespace Snake
                     snake.handle(key.Key);
                 }
 
-                Thread.Sleep(250);
+                Thread.Sleep(400);
                 snake.Move();
             }
         }
