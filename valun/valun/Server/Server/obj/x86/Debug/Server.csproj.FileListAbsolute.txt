@@ -1,0 +1,6 @@
+C:\C# Projects\Forum\valun\Server\Server\bin\Debug\Server.exe.config
+C:\C# Projects\Forum\valun\Server\Server\bin\Debug\Server.exe
+C:\C# Projects\Forum\valun\Server\Server\bin\Debug\Server.pdb
+C:\C# Projects\Forum\valun\Server\Server\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\C# Projects\Forum\valun\Server\Server\obj\x86\Debug\Server.exe
+C:\C# Projects\Forum\valun\Server\Server\obj\x86\Debug\Server.pdb
